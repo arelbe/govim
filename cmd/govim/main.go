@@ -307,6 +307,7 @@ func (g *govimplugin) Init(gg govim.Govim, errCh chan error) error {
 	g.DefineCommand(string(config.CommandHighlightReferences), g.vimstate.referenceHighlight)
 	g.DefineAutoCommand("", govim.Events{govim.EventCompleteDone}, govim.Patterns{"*"}, false, g.vimstate.completeDone, "eval(expand('<abuf>'))", "v:completed_item")
 	g.DefineAutoCommand("", govim.Events{govim.EventUser}, govim.Patterns{"PostInitComplete"}, true, g.vimstate.postInitComplete, postInitCompleteExpr)
+	g.DefineFunction(string(config.FunctionWorkspaceSymbol), []string{"params"}, g.vimstate.workspaceSymbol)
 	g.defineHighlights()
 	if err := g.vimstate.signDefine(); err != nil {
 		return fmt.Errorf("failed to define signs: %v", err)
